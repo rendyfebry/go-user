@@ -12,15 +12,16 @@ const contentType = "application/json;charset=UTF-8"
 
 // Endpoints ...
 type Endpoints struct {
-	HealthCheck http.HandlerFunc
-	CreateUser  http.HandlerFunc
-	GetUsers    http.HandlerFunc
-	GetUser     http.HandlerFunc
-	DeleteUser  http.HandlerFunc
+	HealthCheck http.Handler
+	CreateUser  http.Handler
+	GetUsers    http.Handler
+	GetUser     http.Handler
+	DeleteUser  http.Handler
 }
 
 // New will return new userService object
 func New(s service.UserService) Endpoints {
+	// Create Endpoint handler
 	eps := Endpoints{
 		HealthCheck: MakeHealthCheckEndpoint(s),
 		CreateUser:  MakeCreateUserEndpoint(s),
@@ -28,6 +29,12 @@ func New(s service.UserService) Endpoints {
 		GetUser:     MakeGetUserEndpoint(s),
 		DeleteUser:  MakeDeleteUserEndpoint(s),
 	}
+
+	// Apply middleware
+	eps.CreateUser = Logger(eps.CreateUser)
+	eps.GetUsers = Logger(eps.GetUsers)
+	eps.GetUser = Logger(eps.GetUser)
+	eps.DeleteUser = Logger(eps.DeleteUser)
 
 	return eps
 }
