@@ -2,14 +2,15 @@ package service
 
 import (
 	"context"
-	"fmt"
+
+	"github.com/rendyfebry/go-user/pkg/entity"
 )
 
 // UserService interface
 type UserService interface {
-	HealthCheck(ctx context.Context) (string, error)
-	GetTodos(ctx context.Context) (string, error)
-	GetTodo(ctx context.Context, id string) (string, error)
+	HealthCheck(ctx context.Context) (map[string]string, error)
+	GetUsers(ctx context.Context) ([]*entity.User, error)
+	GetUser(ctx context.Context, id string) (*entity.User, error)
 }
 
 // userService object
@@ -21,14 +22,30 @@ func New() UserService {
 	return &userService{}
 }
 
-func (s *userService) HealthCheck(ctx context.Context) (string, error) {
-	return "healthcheck", nil
+func (s *userService) HealthCheck(ctx context.Context) (map[string]string, error) {
+	status := map[string]string{
+		"status": "ok",
+	}
+
+	return status, nil
 }
 
-func (s *userService) GetTodos(ctx context.Context) (string, error) {
-	return "GetTodos", nil
+func (s *userService) GetUsers(ctx context.Context) ([]*entity.User, error) {
+	users := []*entity.User{
+		{
+			Name:  "John",
+			Email: "email@example.com",
+		},
+	}
+
+	return users, nil
 }
 
-func (s *userService) GetTodo(ctx context.Context, id string) (string, error) {
-	return fmt.Sprintf("Get Todo: %s", id), nil
+func (s *userService) GetUser(ctx context.Context, id string) (*entity.User, error) {
+	user := &entity.User{
+		Name:  "John",
+		Email: "email@example.com",
+	}
+
+	return user, nil
 }

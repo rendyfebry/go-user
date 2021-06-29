@@ -15,9 +15,9 @@ func main() {
 	eps := endpoint.New(svc)
 
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", eps.HealthCheck)
-	router.HandleFunc("/todos", eps.GetTodos)
-	router.HandleFunc("/todos/{todoId}", eps.GetTodo)
+	router.Methods("GET").Path("/healthcheck").Handler(eps.HealthCheck)
+	router.Methods("GET").Path("/users").Handler(eps.GetUsers)
+	router.Methods("GET").Path("/users/{userID}").Handler(eps.GetUser)
 
 	log.Fatal(http.ListenAndServe("localhost:3000", router))
 }

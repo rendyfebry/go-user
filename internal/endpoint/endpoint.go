@@ -2,7 +2,7 @@ package endpoint
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
 	"net/http"
 
 	"github.com/rendyfebry/go-user/internal/service"
@@ -10,11 +10,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
+const contentType = "application/json;charset=UTF-8"
+
 // Endpoints ...
 type Endpoints struct {
 	HealthCheck http.HandlerFunc
-	GetTodos    http.HandlerFunc
-	GetTodo     http.HandlerFunc
+	GetUsers    http.HandlerFunc
+	GetUser     http.HandlerFunc
 }
 
 // New will return new userService object
@@ -23,20 +25,35 @@ func New(s service.UserService) Endpoints {
 		HealthCheck: func(w http.ResponseWriter, r *http.Request) {
 			res, _ := s.HealthCheck(context.Background())
 
-			fmt.Fprint(w, res)
-		},
-		GetTodos: func(w http.ResponseWriter, r *http.Request) {
-			res, _ := s.GetTodos(context.Background())
+			w.Header().Set("Content-Type", contentType)
+			w.WriteHeader(http.StatusOK)
 
-			fmt.Fprint(w, res)
+			if err := json.NewEncoder(w).Encode(res); err != nil {
+				panic(err)
+			}
 		},
-		GetTodo: func(w http.ResponseWriter, r *http.Request) {
+		GetUsers: func(w http.ResponseWriter, r *http.Request) {
+			res, _ := s.GetUsers(context.Background())
+
+			w.Header().Set("Content-Type", contentType)
+			w.WriteHeader(http.StatusOK)
+
+			if err := json.NewEncoder(w).Encode(res); err != nil {
+				panic(err)
+			}
+		},
+		GetUser: func(w http.ResponseWriter, r *http.Request) {
 			vars := mux.Vars(r)
-			todoID := vars["todoId"]
+			userID := vars["userID"]
 
-			res, _ := s.GetTodo(context.Background(), todoID)
+			res, _ := s.GetUser(context.Background(), userID)
 
-			fmt.Fprint(w, res)
+			w.Header().Set("Content-Type", contentType)
+			w.WriteHeader(http.StatusOK)
+
+			if err := json.NewEncoder(w).Encode(res); err != nil {
+				panic(err)
+			}
 		},
 	}
 
