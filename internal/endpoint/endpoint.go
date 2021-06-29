@@ -30,9 +30,9 @@ func New(s service.UserService) Endpoints {
 	return eps
 }
 
-func encodeResponse(w http.ResponseWriter, res interface{}) {
+func encodeResponse(w http.ResponseWriter, statusCode int, res interface{}) {
 	w.Header().Set("Content-Type", contentType)
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(statusCode)
 
 	if err := json.NewEncoder(w).Encode(res); err != nil {
 		panic(err)
@@ -40,10 +40,5 @@ func encodeResponse(w http.ResponseWriter, res interface{}) {
 }
 
 func encodeErr(w http.ResponseWriter, err rest.ErrorResponse) {
-	w.Header().Set("Content-Type", contentType)
-	w.WriteHeader(err.HTTPCode)
-
-	if err := json.NewEncoder(w).Encode(err); err != nil {
-		panic(err)
-	}
+	encodeResponse(w, err.HTTPCode, err)
 }

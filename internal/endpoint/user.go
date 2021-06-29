@@ -6,10 +6,11 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"github.com/rendyfebry/go-user/internal/service"
 	"github.com/rendyfebry/go-user/pkg/entity"
 	"github.com/rendyfebry/go-user/pkg/rest"
+
+	"github.com/gorilla/mux"
 )
 
 // MakeCreateUserEndpoint ...
@@ -53,7 +54,7 @@ func MakeCreateUserEndpoint(s service.UserService) http.HandlerFunc {
 
 		res, _ := s.CreateUser(r.Context(), &user)
 
-		encodeResponse(w, res)
+		encodeResponse(w, http.StatusOK, res)
 	}
 }
 
@@ -67,7 +68,7 @@ func MakeGetUsersEndpoint(s service.UserService) http.HandlerFunc {
 			Meta: rest.GenerateMeta(r.Context()),
 		}
 
-		encodeResponse(w, res)
+		encodeResponse(w, http.StatusOK, res)
 	}
 }
 
@@ -97,6 +98,6 @@ func MakeGetUserEndpoint(s service.UserService) http.HandlerFunc {
 			Meta: rest.GenerateMeta(r.Context()),
 		}
 
-		encodeResponse(w, res)
+		encodeResponse(w, http.StatusOK, res)
 	}
 }

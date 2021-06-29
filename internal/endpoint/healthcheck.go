@@ -17,6 +17,6 @@ func MakeHealthCheckEndpoint(s service.UserService) http.HandlerFunc {
 			Meta: rest.GenerateMeta(r.Context()),
 		}
 
-		encodeResponse(w, res)
+		encodeResponse(w, http.StatusOK, res)
 	}
 }
