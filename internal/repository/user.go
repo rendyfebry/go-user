@@ -30,6 +30,16 @@ func (r *userRepo) GetUser(ctx context.Context, id string) (*entity.User, error)
 	return nil, errors.New("Not found")
 }
 
+func (r *userRepo) GetUserByEmail(ctx context.Context, email string) (*entity.User, error) {
+	for _, v := range users {
+		if v.Email == email {
+			return v, nil
+		}
+	}
+
+	return nil, errors.New("Not found")
+}
+
 func (r *userRepo) UpdateUser(ctx context.Context, user *entity.User) (*entity.User, error) {
 	for _, v := range users {
 		if v.ID.String() == user.ID.String() {

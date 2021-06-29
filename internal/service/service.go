@@ -5,6 +5,7 @@ import (
 
 	"github.com/rendyfebry/go-user/internal/repository"
 	"github.com/rendyfebry/go-user/pkg/entity"
+	"github.com/rendyfebry/go-user/pkg/rest"
 )
 
 // UserService interface
@@ -15,6 +16,7 @@ type UserService interface {
 	GetUser(ctx context.Context, id string) (*entity.User, error)
 	UpdateUser(ctx context.Context, user *entity.User) (*entity.User, error)
 	DeleteUser(ctx context.Context, id string) error
+	Login(ctx context.Context, req *rest.LoginRequest) (*entity.User, error)
 }
 
 // userService object

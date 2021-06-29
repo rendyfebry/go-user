@@ -21,6 +21,7 @@ func main() {
 	router.Methods("GET").Path("/users/{userID}").Handler(eps.GetUser)
 	router.Methods("PUT").Path("/users/{userID}").Handler(eps.UpdateUser)
 	router.Methods("DELETE").Path("/users/{userID}").Handler(eps.DeleteUser)
+	router.Methods("POST").Path("/login").Handler(eps.Login)
 
 	log.Fatal(http.ListenAndServe("localhost:3000", router))
 }

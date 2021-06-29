@@ -13,14 +13,18 @@ var users []*entity.User
 func init() {
 	users = []*entity.User{
 		{
-			ID:    uuid.FromStringOrNil("0674f8ec-027a-4ca1-8388-4c503a2d992d"),
-			Name:  "John",
-			Email: "email@example.com",
+			ID:           uuid.FromStringOrNil("0674f8ec-027a-4ca1-8388-4c503a2d992d"),
+			Name:         "John",
+			Email:        "john@example.com",
+			Address:      "Newyork",
+			PasswordHash: "cGFzc3dvcmQ=",
 		},
 		{
-			ID:    uuid.FromStringOrNil("d0465c53-94a4-47c1-8e0f-45eafaa96583"),
-			Name:  "Doe",
-			Email: "doe@example.com",
+			ID:           uuid.FromStringOrNil("d0465c53-94a4-47c1-8e0f-45eafaa96583"),
+			Name:         "Doe",
+			Email:        "doe@example.com",
+			Address:      "Tokyo",
+			PasswordHash: "cGFzc3dvcmQ=",
 		},
 	}
 }
@@ -30,6 +34,7 @@ type UserRepository interface {
 	CreateUser(ctx context.Context, user *entity.User) (*entity.User, error)
 	GetUsers(ctx context.Context) ([]*entity.User, error)
 	GetUser(ctx context.Context, id string) (*entity.User, error)
+	GetUserByEmail(ctx context.Context, email string) (*entity.User, error)
 	UpdateUser(ctx context.Context, user *entity.User) (*entity.User, error)
 	DeleteUser(ctx context.Context, id string) error
 }

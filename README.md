@@ -15,7 +15,8 @@ curl -L -X POST 'localhost:3000/users' \
 -H 'Content-Type: application/json' \
 --data-raw '{
     "name": "yo",
-    "email": "yo@example.com"
+    "email": "yo@example.com",
+    "address": "Jakarta",
 }'
 ```
 
@@ -37,7 +38,8 @@ curl -L -X PUT 'localhost:3000/users/08e93f8a-316a-4e46-a416-7a12665111a0' \
 -H 'Content-Type: application/json' \
 --data-raw '{
     "name": "kiss",
-    "email": "yo@example.com"
+    "email": "yo@example.com",
+    "address": "Bandung",
 }'
 ```
 
@@ -45,4 +47,15 @@ curl -L -X PUT 'localhost:3000/users/08e93f8a-316a-4e46-a416-7a12665111a0' \
 
 ```
 curl -L -X DELETE 'localhost:3000/users/eb8c9481-e59f-40e6-b1dd-90b27f4de5ac'
+```
+
+### Login
+
+```
+curl -L -X POST 'localhost:3000/login' \
+-H 'Content-Type: application/json' \
+--data-raw '{
+    "email": "john@example.com",
+    "password": "password"
+}'
 ```

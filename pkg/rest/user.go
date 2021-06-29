@@ -14,4 +14,10 @@ type (
 		Data *entity.User `json:"data"`
 		Meta Meta         `json:"meta"`
 	}
+
+	// LoginRequest ...
+	LoginRequest struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
 )
