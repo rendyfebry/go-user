@@ -29,3 +29,19 @@ func (r *userRepo) GetUser(ctx context.Context, id string) (*entity.User, error)
 
 	return nil, errors.New("Not found")
 }
+
+func (r *userRepo) DeleteUser(ctx context.Context, id string) error {
+	for k, v := range users {
+		if v.ID.String() == id {
+
+			// Remove the element at index k from users.
+			users[k] = users[len(users)-1] // Copy last element to index i.
+			users[len(users)-1] = nil      // Erase last element (write zero value).
+			users = users[:len(users)-1]   // Truncate slice.
+
+			break
+		}
+	}
+
+	return nil
+}

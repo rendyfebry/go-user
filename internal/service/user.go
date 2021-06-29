@@ -23,3 +23,12 @@ func (s *userService) GetUser(ctx context.Context, id string) (*entity.User, err
 
 	return user, err
 }
+
+func (s *userService) DeleteUser(ctx context.Context, id string) error {
+	_, err := s.Repo.GetUser(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	return s.Repo.DeleteUser(ctx, id)
+}

@@ -16,6 +16,7 @@ type Endpoints struct {
 	CreateUser  http.HandlerFunc
 	GetUsers    http.HandlerFunc
 	GetUser     http.HandlerFunc
+	DeleteUser  http.HandlerFunc
 }
 
 // New will return new userService object
@@ -25,6 +26,7 @@ func New(s service.UserService) Endpoints {
 		CreateUser:  MakeCreateUserEndpoint(s),
 		GetUsers:    MakeGetUsersEndpoint(s),
 		GetUser:     MakeGetUserEndpoint(s),
+		DeleteUser:  MakeDeleteUserEndpoint(s),
 	}
 
 	return eps
@@ -34,8 +36,10 @@ func encodeResponse(w http.ResponseWriter, statusCode int, res interface{}) {
 	w.Header().Set("Content-Type", contentType)
 	w.WriteHeader(statusCode)
 
-	if err := json.NewEncoder(w).Encode(res); err != nil {
-		panic(err)
+	if statusCode != http.StatusNoContent {
+		if err := json.NewEncoder(w).Encode(res); err != nil {
+			panic(err)
+		}
 	}
 }
 

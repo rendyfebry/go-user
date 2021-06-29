@@ -101,3 +101,28 @@ func MakeGetUserEndpoint(s service.UserService) http.HandlerFunc {
 		encodeResponse(w, http.StatusOK, res)
 	}
 }
+
+// MakeDeleteUserEndpoint ...
+func MakeDeleteUserEndpoint(s service.UserService) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		userID := vars["userID"]
+
+		err := s.DeleteUser(r.Context(), userID)
+		if err != nil {
+			res := rest.ErrorResponse{
+				Message:  err.Error(),
+				HTTPCode: http.StatusInternalServerError,
+			}
+
+			if err.Error() == "Not found" {
+				res.HTTPCode = http.StatusNotFound
+			}
+
+			encodeErr(w, res)
+			return
+		}
+
+		encodeResponse(w, http.StatusNoContent, nil)
+	}
+}
