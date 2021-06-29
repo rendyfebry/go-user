@@ -11,10 +11,10 @@ import (
 // UserService interface
 type UserService interface {
 	HealthCheck(ctx context.Context) (string, error)
-	CreateUser(ctx context.Context, user *entity.User) (*entity.User, error)
+	CreateUser(ctx context.Context, req *rest.CreateUserRequest) (*entity.User, error)
 	GetUsers(ctx context.Context) ([]*entity.User, error)
 	GetUser(ctx context.Context, id string) (*entity.User, error)
-	UpdateUser(ctx context.Context, user *entity.User) (*entity.User, error)
+	UpdateUser(ctx context.Context, user *rest.UpdateUserRequest) (*entity.User, error)
 	DeleteUser(ctx context.Context, id string) error
 	Login(ctx context.Context, req *rest.LoginRequest) (*entity.User, error)
 }

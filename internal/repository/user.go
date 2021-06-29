@@ -45,6 +45,8 @@ func (r *userRepo) UpdateUser(ctx context.Context, user *entity.User) (*entity.U
 		if v.ID.String() == user.ID.String() {
 			v.Name = user.Name
 			v.Email = user.Email
+			v.Address = user.Address
+			v.PasswordHash = user.PasswordHash
 			return v, nil
 		}
 	}

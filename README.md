@@ -17,6 +17,7 @@ curl -L -X POST 'localhost:3000/users' \
     "name": "yo",
     "email": "yo@example.com",
     "address": "Jakarta",
+    "password": "password"
 }'
 ```
 
@@ -40,6 +41,7 @@ curl -L -X PUT 'localhost:3000/users/08e93f8a-316a-4e46-a416-7a12665111a0' \
     "name": "kiss",
     "email": "yo@example.com",
     "address": "Bandung",
+    "password": "password"
 }'
 ```
 

@@ -7,9 +7,7 @@ import (
 	"net/http"
 
 	"github.com/rendyfebry/go-user/internal/service"
-	"github.com/rendyfebry/go-user/pkg/entity"
 	"github.com/rendyfebry/go-user/pkg/rest"
-	uuid "github.com/satori/go.uuid"
 
 	"github.com/gorilla/mux"
 )
@@ -40,8 +38,8 @@ func MakeCreateUserEndpoint(s service.UserService) http.HandlerFunc {
 			}
 		}
 
-		var user entity.User
-		if err := json.Unmarshal(body, &user); err != nil {
+		var req rest.CreateUserRequest
+		if err := json.Unmarshal(body, &req); err != nil {
 			if err != nil {
 				res := rest.ErrorResponse{
 					Message:  "Invalid request format",
@@ -53,7 +51,7 @@ func MakeCreateUserEndpoint(s service.UserService) http.HandlerFunc {
 			}
 		}
 
-		res, _ := s.CreateUser(r.Context(), &user)
+		res, _ := s.CreateUser(r.Context(), &req)
 
 		encodeResponse(w, http.StatusOK, res)
 	}
@@ -132,8 +130,8 @@ func MakeUpdateUserEndpoint(s service.UserService) http.HandlerFunc {
 			}
 		}
 
-		var user entity.User
-		if err := json.Unmarshal(body, &user); err != nil {
+		var req rest.UpdateUserRequest
+		if err := json.Unmarshal(body, &req); err != nil {
 			if err != nil {
 				res := rest.ErrorResponse{
 					Message:  "Invalid request format",
@@ -145,9 +143,9 @@ func MakeUpdateUserEndpoint(s service.UserService) http.HandlerFunc {
 			}
 		}
 
-		user.ID = uuid.FromStringOrNil(userID)
+		req.ID = userID
 
-		userUpdated, err := s.UpdateUser(r.Context(), &user)
+		userUpdated, err := s.UpdateUser(r.Context(), &req)
 		if err != nil {
 			res := rest.ErrorResponse{
 				Message:  err.Error(),

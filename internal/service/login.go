@@ -15,6 +15,7 @@ func (s *userService) Login(ctx context.Context, req *rest.LoginRequest) (*entit
 		return nil, errors.New("Invalid email or password")
 	}
 
+	// For testing we just using simple base64 hash
 	passEnc := base64.StdEncoding.EncodeToString([]byte(req.Password))
 	if passEnc != user.PasswordHash {
 		return nil, errors.New("Invalid email or password")
