@@ -9,6 +9,7 @@ import (
 	"github.com/rendyfebry/go-user/internal/service"
 	"github.com/rendyfebry/go-user/pkg/entity"
 	"github.com/rendyfebry/go-user/pkg/rest"
+	uuid "github.com/satori/go.uuid"
 
 	"github.com/gorilla/mux"
 )
@@ -95,6 +96,74 @@ func MakeGetUserEndpoint(s service.UserService) http.HandlerFunc {
 
 		res := rest.GetUserResponse{
 			Data: user,
+			Meta: rest.GenerateMeta(r.Context()),
+		}
+
+		encodeResponse(w, http.StatusOK, res)
+	}
+}
+
+// MakeUpdateUserEndpoint ...
+func MakeUpdateUserEndpoint(s service.UserService) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		userID := vars["userID"]
+
+		body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+		if err != nil {
+			res := rest.ErrorResponse{
+				Message:  err.Error(),
+				HTTPCode: http.StatusInternalServerError,
+			}
+
+			encodeErr(w, res)
+			return
+		}
+
+		if err := r.Body.Close(); err != nil {
+			if err != nil {
+				res := rest.ErrorResponse{
+					Message:  err.Error(),
+					HTTPCode: http.StatusInternalServerError,
+				}
+
+				encodeErr(w, res)
+				return
+			}
+		}
+
+		var user entity.User
+		if err := json.Unmarshal(body, &user); err != nil {
+			if err != nil {
+				res := rest.ErrorResponse{
+					Message:  "Invalid request format",
+					HTTPCode: http.StatusBadRequest,
+				}
+
+				encodeErr(w, res)
+				return
+			}
+		}
+
+		user.ID = uuid.FromStringOrNil(userID)
+
+		userUpdated, err := s.UpdateUser(r.Context(), &user)
+		if err != nil {
+			res := rest.ErrorResponse{
+				Message:  err.Error(),
+				HTTPCode: http.StatusInternalServerError,
+			}
+
+			if err.Error() == "Not found" {
+				res.HTTPCode = http.StatusNotFound
+			}
+
+			encodeErr(w, res)
+			return
+		}
+
+		res := rest.GetUserResponse{
+			Data: userUpdated,
 			Meta: rest.GenerateMeta(r.Context()),
 		}
 

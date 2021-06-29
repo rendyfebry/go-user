@@ -16,6 +16,7 @@ type Endpoints struct {
 	CreateUser  http.Handler
 	GetUsers    http.Handler
 	GetUser     http.Handler
+	UpdateUser  http.Handler
 	DeleteUser  http.Handler
 }
 
@@ -27,6 +28,7 @@ func New(s service.UserService) Endpoints {
 		CreateUser:  MakeCreateUserEndpoint(s),
 		GetUsers:    MakeGetUsersEndpoint(s),
 		GetUser:     MakeGetUserEndpoint(s),
+		UpdateUser:  MakeUpdateUserEndpoint(s),
 		DeleteUser:  MakeDeleteUserEndpoint(s),
 	}
 
@@ -34,6 +36,7 @@ func New(s service.UserService) Endpoints {
 	eps.CreateUser = Logger(eps.CreateUser)
 	eps.GetUsers = Logger(eps.GetUsers)
 	eps.GetUser = Logger(eps.GetUser)
+	eps.UpdateUser = Logger(eps.UpdateUser)
 	eps.DeleteUser = Logger(eps.DeleteUser)
 
 	return eps

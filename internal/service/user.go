@@ -24,11 +24,23 @@ func (s *userService) GetUser(ctx context.Context, id string) (*entity.User, err
 	return user, err
 }
 
+func (s *userService) UpdateUser(ctx context.Context, user *entity.User) (*entity.User, error) {
+	_, err := s.Repo.GetUser(ctx, user.ID.String())
+	if err != nil {
+		return nil, err
+	}
+
+	user, err = s.Repo.UpdateUser(ctx, user)
+	return user, err
+}
+
 func (s *userService) DeleteUser(ctx context.Context, id string) error {
 	_, err := s.Repo.GetUser(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	return s.Repo.DeleteUser(ctx, id)
+	err = s.Repo.DeleteUser(ctx, id)
+
+	return err
 }

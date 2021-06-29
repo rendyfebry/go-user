@@ -13,6 +13,7 @@ type UserService interface {
 	CreateUser(ctx context.Context, user *entity.User) (*entity.User, error)
 	GetUsers(ctx context.Context) ([]*entity.User, error)
 	GetUser(ctx context.Context, id string) (*entity.User, error)
+	UpdateUser(ctx context.Context, user *entity.User) (*entity.User, error)
 	DeleteUser(ctx context.Context, id string) error
 }
 

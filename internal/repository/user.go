@@ -30,6 +30,18 @@ func (r *userRepo) GetUser(ctx context.Context, id string) (*entity.User, error)
 	return nil, errors.New("Not found")
 }
 
+func (r *userRepo) UpdateUser(ctx context.Context, user *entity.User) (*entity.User, error) {
+	for _, v := range users {
+		if v.ID.String() == user.ID.String() {
+			v.Name = user.Name
+			v.Email = user.Email
+			return v, nil
+		}
+	}
+
+	return nil, errors.New("Not found")
+}
+
 func (r *userRepo) DeleteUser(ctx context.Context, id string) error {
 	for k, v := range users {
 		if v.ID.String() == id {
