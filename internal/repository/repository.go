@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/rendyfebry/go-user/pkg/entity"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 var users []*entity.User
@@ -11,10 +13,12 @@ var users []*entity.User
 func init() {
 	users = []*entity.User{
 		{
+			ID:    uuid.FromStringOrNil("0674f8ec-027a-4ca1-8388-4c503a2d992d"),
 			Name:  "John",
 			Email: "email@example.com",
 		},
 		{
+			ID:    uuid.FromStringOrNil("d0465c53-94a4-47c1-8e0f-45eafaa96583"),
 			Name:  "Doe",
 			Email: "doe@example.com",
 		},

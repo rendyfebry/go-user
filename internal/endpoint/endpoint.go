@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/rendyfebry/go-user/internal/service"
+	"github.com/rendyfebry/go-user/pkg/rest"
 )
 
 const contentType = "application/json;charset=UTF-8"
@@ -34,6 +35,15 @@ func encodeResponse(w http.ResponseWriter, res interface{}) {
 	w.WriteHeader(http.StatusOK)
 
 	if err := json.NewEncoder(w).Encode(res); err != nil {
+		panic(err)
+	}
+}
+
+func encodeErr(w http.ResponseWriter, err rest.ErrorResponse) {
+	w.Header().Set("Content-Type", contentType)
+	w.WriteHeader(err.HTTPCode)
+
+	if err := json.NewEncoder(w).Encode(err); err != nil {
 		panic(err)
 	}
 }

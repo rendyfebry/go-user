@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 
 	"github.com/rendyfebry/go-user/pkg/entity"
 
@@ -20,5 +21,11 @@ func (r *userRepo) GetUsers(ctx context.Context) ([]*entity.User, error) {
 }
 
 func (r *userRepo) GetUser(ctx context.Context, id string) (*entity.User, error) {
-	return users[0], nil
+	for _, v := range users {
+		if v.ID.String() == id {
+			return v, nil
+		}
+	}
+
+	return nil, errors.New("Not found")
 }
