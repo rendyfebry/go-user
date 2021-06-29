@@ -1,7 +1,10 @@
 package entity
 
+import uuid "github.com/satori/go.uuid"
+
 // User entity model
 type User struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID    uuid.UUID `json:"id"`
+	Name  string    `json:"name"`
+	Email string    `json:"email"`
 }

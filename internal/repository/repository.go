@@ -23,6 +23,7 @@ func init() {
 
 // UserRepository interface
 type UserRepository interface {
+	CreateUser(ctx context.Context, user *entity.User) (*entity.User, error)
 	GetUsers(ctx context.Context) ([]*entity.User, error)
 	GetUser(ctx context.Context, id string) (*entity.User, error)
 }
@@ -35,12 +36,4 @@ type userRepo struct {
 // New will return new userRepo object
 func New() UserRepository {
 	return &userRepo{}
-}
-
-func (r *userRepo) GetUsers(ctx context.Context) ([]*entity.User, error) {
-	return users, nil
-}
-
-func (r *userRepo) GetUser(ctx context.Context, id string) (*entity.User, error) {
-	return users[0], nil
 }

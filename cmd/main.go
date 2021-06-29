@@ -16,6 +16,7 @@ func main() {
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.Methods("GET").Path("/healthcheck").Handler(eps.HealthCheck)
+	router.Methods("POST").Path("/users").Handler(eps.CreateUser)
 	router.Methods("GET").Path("/users").Handler(eps.GetUsers)
 	router.Methods("GET").Path("/users/{userID}").Handler(eps.GetUser)
 

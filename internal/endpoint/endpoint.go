@@ -12,6 +12,7 @@ const contentType = "application/json;charset=UTF-8"
 // Endpoints ...
 type Endpoints struct {
 	HealthCheck http.HandlerFunc
+	CreateUser  http.HandlerFunc
 	GetUsers    http.HandlerFunc
 	GetUser     http.HandlerFunc
 }
@@ -20,6 +21,7 @@ type Endpoints struct {
 func New(s service.UserService) Endpoints {
 	eps := Endpoints{
 		HealthCheck: MakeHealthCheckEndpoint(s),
+		CreateUser:  MakeCreateUserEndpoint(s),
 		GetUsers:    MakeGetUsersEndpoint(s),
 		GetUser:     MakeGetUserEndpoint(s),
 	}

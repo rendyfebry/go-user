@@ -10,6 +10,7 @@ import (
 // UserService interface
 type UserService interface {
 	HealthCheck(ctx context.Context) (map[string]string, error)
+	CreateUser(ctx context.Context, user *entity.User) (*entity.User, error)
 	GetUsers(ctx context.Context) ([]*entity.User, error)
 	GetUser(ctx context.Context, id string) (*entity.User, error)
 }
